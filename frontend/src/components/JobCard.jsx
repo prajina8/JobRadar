@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Bookmark, MapPin, Briefcase, Clock } from "lucide-react";
 
