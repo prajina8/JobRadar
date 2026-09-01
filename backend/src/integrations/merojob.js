@@ -1,15 +1,16 @@
 import axios from "axios";
 
-
 export async function fetchMeroJobJobs() {
   const apiUrl = process.env.MEROJOB_JOBS_API_URL;
   const apiToken = process.env.MEROJOB_API_TOKEN;
 
-  if (!apiUrl) {
-    console.warn(
-      "MeroJob integration is not configured. Skipping MeroJob job sync."
-    );
 
+  if (process.env.DEMO_EXTERNAL_JOBS === "true") {
+    return getDemoMeroJobJobs();
+  }
+
+  if (!apiUrl) {
+    console.warn("MeroJob API/feed is not configured.");
     return [];
   }
 
@@ -36,13 +37,141 @@ export async function fetchMeroJobJobs() {
     return jobs.map(normalizeMeroJob).filter(Boolean);
   } catch (error) {
     console.error(
-      "MeroJob job fetch failed:",
+      "MeroJob fetch failed:",
       error.response?.data || error.message
     );
 
     return [];
   }
 }
+
+
+
+function getDemoMeroJobJobs() {
+  return [
+    {
+      title: "React Developer",
+      company: "WebTech Nepal",
+      description:
+        "WebTech Nepal is looking for a React Developer to build modern web applications.",
+      requirements: [
+        "Strong React knowledge",
+        "JavaScript",
+        "Git",
+        "REST API",
+      ],
+      skills: [
+        "React",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Git",
+      ],
+      location: "Kathmandu",
+      jobType: "Full-time",
+      workMode: "On-site",
+      experienceLevel: "Entry level",
+      salary: "NPR 35,000 - 60,000",
+      postedDate: new Date(),
+      source: "MeroJob",
+      sourceUrl: "https://merojob.com/",
+      externalId: "merojob-demo-001",
+      isExternal: true,
+      isActive: true,
+    },
+
+    {
+      title: "Node.js Developer",
+      company: "Innovative IT Solutions",
+      description:
+        "We are looking for a Node.js developer to work on backend APIs and web applications.",
+      requirements: [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "REST API",
+      ],
+      skills: [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "JavaScript",
+      ],
+      location: "Lalitpur",
+      jobType: "Full-time",
+      workMode: "Hybrid",
+      experienceLevel: "1-2 years",
+      salary: "NPR 45,000 - 70,000",
+      postedDate: new Date(),
+      source: "MeroJob",
+      sourceUrl: "https://merojob.com/",
+      externalId: "merojob-demo-002",
+      isExternal: true,
+      isActive: true,
+    },
+
+    {
+      title: "MERN Stack Intern",
+      company: "Startup Nepal",
+      description:
+        "Internship opportunity for students who want to learn full-stack JavaScript development.",
+      requirements: [
+        "Basic React knowledge",
+        "Basic Node.js knowledge",
+        "MongoDB basics",
+      ],
+      skills: [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "JavaScript",
+      ],
+      location: "Biratnagar",
+      jobType: "Internship",
+      workMode: "Remote",
+      experienceLevel: "Internship",
+      salary: "NPR 8,000 - 15,000",
+      postedDate: new Date(),
+      source: "MeroJob",
+      sourceUrl: "https://merojob.com/",
+      externalId: "merojob-demo-003",
+      isExternal: true,
+      isActive: true,
+    },
+
+    {
+      title: "Python Developer",
+      company: "Nepal Software House",
+      description:
+        "Develop backend applications and APIs using Python and modern frameworks.",
+      requirements: [
+        "Python",
+        "Django",
+        "REST API",
+        "PostgreSQL",
+      ],
+      skills: [
+        "Python",
+        "Django",
+        "REST API",
+        "PostgreSQL",
+      ],
+      location: "Kathmandu",
+      jobType: "Full-time",
+      workMode: "Hybrid",
+      experienceLevel: "2-5 years",
+      salary: "NPR 60,000 - 100,000",
+      postedDate: new Date(),
+      source: "MeroJob",
+      sourceUrl: "https://merojob.com/",
+      externalId: "merojob-demo-004",
+      isExternal: true,
+      isActive: true,
+    },
+  ];
+}
+
+
 
 function normalizeMeroJob(job) {
   const externalId =
@@ -51,9 +180,7 @@ function normalizeMeroJob(job) {
     job.externalId ||
     job.slug;
 
-  if (!externalId) {
-    return null;
-  }
+  if (!externalId) return null;
 
   return {
     title:
@@ -64,7 +191,6 @@ function normalizeMeroJob(job) {
     company:
       job.company?.name ||
       job.companyName ||
-      job.organization ||
       "Unknown Company",
 
     description:
@@ -88,20 +214,19 @@ function normalizeMeroJob(job) {
 
     jobType: normalizeJobType(
       job.jobType ||
-        job.employmentType ||
-        job.type
+      job.employmentType ||
+      job.type
     ),
 
     workMode: normalizeWorkMode(
       job.workMode ||
-        job.workplaceType ||
-        job.workplace
+      job.workplaceType
     ),
 
     experienceLevel: normalizeExperience(
       job.experienceLevel ||
-        job.experience ||
-        job.seniority
+      job.experience ||
+      job.seniority
     ),
 
     salary:
@@ -111,14 +236,14 @@ function normalizeMeroJob(job) {
 
     postedDate: parseDate(
       job.postedDate ||
-        job.postedAt ||
-        job.datePosted
+      job.postedAt ||
+      job.datePosted
     ),
 
     deadline: parseDate(
       job.deadline ||
-        job.applicationDeadline ||
-        job.expiryDate
+      job.applicationDeadline ||
+      job.expiryDate
     ),
 
     source: "MeroJob",
@@ -138,9 +263,7 @@ function normalizeMeroJob(job) {
 }
 
 function parseDate(value) {
-  if (!value) {
-    return new Date();
-  }
+  if (!value) return new Date();
 
   const date = new Date(value);
 
@@ -187,8 +310,7 @@ function normalizeExperience(level) {
 
   if (
     value.includes("entry") ||
-    value.includes("junior") ||
-    value.includes("fresher")
+    value.includes("junior")
   ) {
     return "Entry level";
   }
