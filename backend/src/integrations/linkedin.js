@@ -1,14 +1,15 @@
 import axios from "axios";
 
-
 export async function fetchLinkedInJobs() {
   const apiUrl = process.env.LINKEDIN_JOBS_API_URL;
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
 
+  if (process.env.DEMO_EXTERNAL_JOBS === "true") {
+    return getDemoLinkedInJobs();
+  }
+
   if (!apiUrl || !accessToken) {
-    console.warn(
-      "LinkedIn integration is not configured. Skipping LinkedIn job sync."
-    );
+    console.warn("LinkedIn API is not configured.");
     return [];
   }
 
@@ -21,18 +22,112 @@ export async function fetchLinkedInJobs() {
       timeout: 15000,
     });
 
-    const jobs = response.data?.jobs || response.data?.elements || [];
+    const jobs =
+      response.data?.jobs ||
+      response.data?.elements ||
+      [];
 
     return jobs.map(normalizeLinkedInJob).filter(Boolean);
   } catch (error) {
     console.error(
-      "LinkedIn job fetch failed:",
+      "LinkedIn fetch failed:",
       error.response?.data || error.message
     );
 
     return [];
   }
 }
+
+
+
+function getDemoLinkedInJobs() {
+  return [
+    {
+      title: "Junior React Developer",
+      company: "Tech Solutions Nepal",
+      description:
+        "We are looking for a Junior React Developer to join our frontend development team.",
+      requirements: [
+        "Knowledge of React.js",
+        "Knowledge of JavaScript",
+        "Understanding of REST APIs",
+      ],
+      skills: ["React", "JavaScript", "HTML", "CSS", "REST API"],
+      location: "Kathmandu",
+      jobType: "Full-time",
+      workMode: "Hybrid",
+      experienceLevel: "Entry level",
+      salary: "NPR 30,000 - 50,000",
+      postedDate: new Date(),
+      source: "LinkedIn",
+      sourceUrl: "https://www.linkedin.com/jobs/",
+      externalId: "linkedin-demo-001",
+      isExternal: true,
+      isActive: true,
+    },
+
+    {
+      title: "MERN Stack Developer",
+      company: "Digital Nepal Pvt. Ltd.",
+      description:
+        "Join our engineering team as a MERN Stack Developer and build scalable web applications.",
+      requirements: [
+        "React.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+      ],
+      skills: [
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "JavaScript",
+      ],
+      location: "Kathmandu",
+      jobType: "Full-time",
+      workMode: "On-site",
+      experienceLevel: "1-2 years",
+      salary: "NPR 50,000 - 80,000",
+      postedDate: new Date(),
+      source: "LinkedIn",
+      sourceUrl: "https://www.linkedin.com/jobs/",
+      externalId: "linkedin-demo-002",
+      isExternal: true,
+      isActive: true,
+    },
+
+    {
+      title: "Frontend Developer Intern",
+      company: "CloudTech Nepal",
+      description:
+        "An internship opportunity for students interested in frontend web development.",
+      requirements: [
+        "Basic JavaScript knowledge",
+        "Basic React knowledge",
+        "HTML and CSS",
+      ],
+      skills: ["React", "JavaScript", "HTML", "CSS"],
+      location: "Pokhara",
+      jobType: "Internship",
+      workMode: "Remote",
+      experienceLevel: "Internship",
+      salary: "NPR 10,000 - 15,000",
+      postedDate: new Date(),
+      source: "LinkedIn",
+      sourceUrl: "https://www.linkedin.com/jobs/",
+      externalId: "linkedin-demo-003",
+      isExternal: true,
+      isActive: true,
+    },
+  ];
+}
+
+/*
+|--------------------------------------------------------------------------
+| NORMALIZER FOR REAL AUTHORIZED LINKEDIN DATA
+|--------------------------------------------------------------------------
+*/
 
 function normalizeLinkedInJob(job) {
   const externalId =
@@ -41,9 +136,7 @@ function normalizeLinkedInJob(job) {
     job.externalId ||
     job.referenceNumber;
 
-  if (!externalId) {
-    return null;
-  }
+  if (!externalId) return null;
 
   return {
     title: job.title || job.name || "Untitled Job",
@@ -51,12 +144,10 @@ function normalizeLinkedInJob(job) {
     company:
       job.company?.name ||
       job.companyName ||
-      job.organization?.name ||
       "Unknown Company",
 
     description:
       job.description ||
-      job.descriptionHtml ||
       "",
 
     requirements: Array.isArray(job.requirements)
@@ -70,7 +161,6 @@ function normalizeLinkedInJob(job) {
     location:
       job.location?.name ||
       job.location ||
-      job.formattedLocation ||
       "Remote",
 
     jobType: normalizeJobType(
@@ -79,19 +169,15 @@ function normalizeLinkedInJob(job) {
 
     workMode: normalizeWorkMode(
       job.workMode ||
-        job.workplaceType ||
-        job.workplace
+      job.workplaceType
     ),
 
     experienceLevel: normalizeExperience(
       job.experienceLevel ||
-        job.seniorityLevel
+      job.seniorityLevel
     ),
 
-    salary:
-      job.salary ||
-      job.salaryRange ||
-      "",
+    salary: job.salary || "",
 
     postedDate: job.postedDate
       ? new Date(job.postedDate)
