@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -25,7 +25,7 @@ export default function Login() {
       <label>Email<input type="email" required value={form.email} onChange={e => setForm({...form, email:e.target.value})}/></label>
       <label>Password<input type="password" required value={form.password} onChange={e => setForm({...form, password:e.target.value})}/></label>
       <button className="btn full">Login</button>
-      <button type="button" className="google-btn" disabled>Continue with Google <small>(OAuth hook ready)</small></button>
+      <button type="button" className="google-btn" disabled>Continue with Google <small></small></button>
       <p className="center muted">New here? <Link to="/register">Create an account</Link></p>
     </form>
   </AuthCard>;
