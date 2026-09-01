@@ -1,9 +1,12 @@
 import Job from "../models/Job.js";
+
 import { fetchLinkedInJobs } from "../integrations/linkedin.js";
 import { fetchMeroJobJobs } from "../integrations/merojobs.js";
 
 export async function syncExternalJobs() {
-  console.log("Starting external job synchronization...");
+  console.log("=================================");
+  console.log("Starting external job sync...");
+  console.log("=================================");
 
   const results = await Promise.allSettled([
     fetchLinkedInJobs(),
@@ -26,20 +29,25 @@ export async function syncExternalJobs() {
   ];
 
   console.log(
-    `Fetched ${jobs.length} external jobs`
+    `LinkedIn jobs: ${linkedInJobs.length}`
+  );
+
+  console.log(
+    `MeroJob jobs: ${meroJobJobs.length}`
   );
 
   let created = 0;
   let updated = 0;
+  let failed = 0;
 
   for (const jobData of jobs) {
     try {
-      const existing = await Job.findOne({
+      const existingJob = await Job.findOne({
         source: jobData.source,
         externalId: jobData.externalId,
       });
 
-      if (existing) {
+      if (existingJob) {
         await Job.updateOne(
           {
             source: jobData.source,
@@ -53,9 +61,12 @@ export async function syncExternalJobs() {
         updated++;
       } else {
         await Job.create(jobData);
+
         created++;
       }
     } catch (error) {
+      failed++;
+
       console.error(
         `Failed to save ${jobData.source} job:`,
         error.message
@@ -63,13 +74,18 @@ export async function syncExternalJobs() {
     }
   }
 
-  console.log(
-    `Job sync complete: ${created} created, ${updated} updated`
-  );
+  console.log("=================================");
+  console.log("External job sync completed");
+  console.log(`Fetched: ${jobs.length}`);
+  console.log(`Created: ${created}`);
+  console.log(`Updated: ${updated}`);
+  console.log(`Failed: ${failed}`);
+  console.log("=================================");
 
   return {
     fetched: jobs.length,
     created,
     updated,
+    failed,
   };
 }
