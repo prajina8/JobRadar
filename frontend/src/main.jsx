@@ -10,7 +10,7 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import "./styles.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+ 
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
@@ -18,6 +18,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
-  </React.StrictMode>
+ 
 );
 
