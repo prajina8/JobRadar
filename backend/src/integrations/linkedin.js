@@ -1,13 +1,6 @@
 import axios from "axios";
 
-/**
- * Fetch jobs from LinkedIn through an authorized API/feed.
- *
- * IMPORTANT:
- * Do not scrape LinkedIn's website directly.
- * Set LINKEDIN_JOBS_API_URL and LINKEDIN_ACCESS_TOKEN
- * only when you have an authorized LinkedIn integration.
- */
+
 export async function fetchLinkedInJobs() {
   const apiUrl = process.env.LINKEDIN_JOBS_API_URL;
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
