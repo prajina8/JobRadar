@@ -12,6 +12,14 @@ import {
   fetchOtherSourceJobs,
 } from "../integrations/otherSources.js";
 
+import {
+  fetchHimalayasJobs,
+} from "../integrations/himalayas.js";
+
+import {
+  fetchRemoteOKJobs,
+} from "../integrations/remoteok.js";
+
 export async function syncExternalJobs() {
   console.log(
     "================================="
@@ -30,6 +38,8 @@ export async function syncExternalJobs() {
       fetchLinkedInJobs(),
       fetchMeroJobJobs(),
       fetchOtherSourceJobs(),
+      fetchHimalayasJobs(),
+      fetchRemoteOKJobs(),
     ]);
 
   const linkedInJobs =
