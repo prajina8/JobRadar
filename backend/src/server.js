@@ -10,6 +10,7 @@ import { connectDB } from "./config/db.js";
 import { syncExternalJobs } from "./services/jobImporter.js";
 
 
+
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";

@@ -2,6 +2,7 @@ import Job from "../models/Job.js";
 
 import { fetchLinkedInJobs } from "../integrations/linkedin.js";
 import { fetchMeroJobJobs } from "../integrations/merojobs.js";
+import { fetchOtherSourceJobs } from "../integrations/otherSources.js";
 
 export async function syncExternalJobs() {
   console.log("=================================");
