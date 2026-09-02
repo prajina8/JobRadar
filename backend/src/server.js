@@ -7,6 +7,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { connectDB } from "./config/db.js";
+import { syncExternalJobs } from "./services/jobImporter.js";
+
 
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
@@ -38,6 +40,7 @@ app.use((_req, res) => res.status(404).json({ message: "Route not found" }));
 const port = process.env.PORT || 5000;
 
 connectDB().then(() => {
+  syncExternalJobs();
   app.listen(port, () => console.log(`SmartJob server running on port ${port}`));
 }).catch((err) => {
   console.error("Database startup failed:", err.message);
