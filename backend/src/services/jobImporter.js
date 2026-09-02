@@ -1,21 +1,36 @@
-
 import Job from "../models/Job.js";
 
-import { fetchLinkedInJobs } from "../integrations/linkedin.js";
-import { fetchMeroJobJobs } from "../integrations/merojobs.js";
-import { fetchOtherSourceJobs } from "../integrations/otherSources.js";
+import {
+  fetchLinkedInJobs,
+} from "../integrations/linkedin.js";
+
+import {
+  fetchMeroJobJobs,
+} from "../integrations/merojobs.js";
+
+import {
+  fetchOtherSourceJobs,
+} from "../integrations/otherSources.js";
 
 export async function syncExternalJobs() {
-  console.log("=================================");
-  console.log("Starting external job sync...");
-  console.log("=================================");
+  console.log(
+    "================================="
+  );
 
-  // Fetch jobs from all external sources
-  const results = await Promise.allSettled([
-    fetchLinkedInJobs(),
-    fetchMeroJobJobs(),
-    fetchOtherSourceJobs(),
-  ]);
+  console.log(
+    "Starting authorized job feed sync..."
+  );
+
+  console.log(
+    "================================="
+  );
+
+  const results =
+    await Promise.allSettled([
+      fetchLinkedInJobs(),
+      fetchMeroJobJobs(),
+      fetchOtherSourceJobs(),
+    ]);
 
   const linkedInJobs =
     results[0].status === "fulfilled"
@@ -32,7 +47,6 @@ export async function syncExternalJobs() {
       ? results[2].value
       : [];
 
-  // Combine all external jobs
   const jobs = [
     ...linkedInJobs,
     ...meroJobJobs,
@@ -40,82 +54,53 @@ export async function syncExternalJobs() {
   ];
 
   console.log(
-    `LinkedIn jobs: ${linkedInJobs.length}`
+    `Received ${jobs.length} external jobs.`
   );
 
-  console.log(
-    `MeroJob jobs: ${meroJobJobs.length}`
-  );
-
-  console.log(
-    `Other source jobs: ${otherJobs.length}`
-  );
-
-  console.log(
-    `Total external jobs: ${jobs.length}`
-  );
-
-  let created = 0;
+  let inserted = 0;
   let updated = 0;
-  let failed = 0;
 
-  // Save jobs to MongoDB
-  for (const jobData of jobs) {
-    try {
-      if (!jobData.externalId) {
-        console.warn(
-          `Skipping ${jobData.source} job because externalId is missing.`
-        );
+  for (const job of jobs) {
+    if (!job.externalId || !job.source) {
+      continue;
+    }
 
-        failed++;
-        continue;
-      }
-
-      const existingJob = await Job.findOne({
-        source: jobData.source,
-        externalId: jobData.externalId,
+    const existingJob =
+      await Job.findOne({
+        source: job.source,
+        externalId: job.externalId,
       });
 
-      if (existingJob) {
-        await Job.updateOne(
-          {
-            source: jobData.source,
-            externalId: jobData.externalId,
-          },
-          {
-            $set: jobData,
-          }
-        );
+    if (existingJob) {
+      Object.assign(existingJob, job);
 
-        updated++;
-      } else {
-        await Job.create(jobData);
+      await existingJob.save();
 
-        created++;
-      }
-    } catch (error) {
-      failed++;
+      updated++;
 
-      console.error(
-        `Failed to save ${jobData.source} job:`,
-        error.message
-      );
+      continue;
     }
+
+    await Job.create(job);
+
+    inserted++;
   }
 
-  console.log("=================================");
-  console.log("External job sync completed");
-  console.log(`Fetched: ${jobs.length}`);
-  console.log(`Created: ${created}`);
-  console.log(`Updated: ${updated}`);
-  console.log(`Failed: ${failed}`);
-  console.log("=================================");
+  console.log(
+    `Inserted: ${inserted}`
+  );
+
+  console.log(
+    `Updated: ${updated}`
+  );
+
+  console.log(
+    "External job sync completed."
+  );
 
   return {
-    fetched: jobs.length,
-    created,
+    received: jobs.length,
+    inserted,
     updated,
-    failed,
   };
 }
-
