@@ -194,8 +194,7 @@ export default function Jobs() {
       );
     }
 
-    // Guest:
-    // simply show all jobs
+   
     return jobsWithScore;
   }, [filteredJobs, profile, isLoggedIn]);
 
