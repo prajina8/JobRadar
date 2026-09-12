@@ -40,6 +40,9 @@ app.use((_req, res) => res.status(404).json({ message: "Route not found" }));
 
 const port = process.env.PORT || 5000;
 
+
+
+
 connectDB().then(() => {
   syncExternalJobs();
   app.listen(port, () => console.log(`SmartJob server running on port ${port}`));

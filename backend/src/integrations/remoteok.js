@@ -28,10 +28,7 @@ export async function fetchRemoteOKJobs() {
       return [];
     }
 
-    /*
-     * Remote OK's first array element can contain
-     * API/feed information rather than an actual job.
-     */
+  
     const jobs = data.filter((job) => {
       return (
         job &&
@@ -57,9 +54,6 @@ export async function fetchRemoteOKJobs() {
   }
 }
 
-/**
- * Convert Remote OK format into our Job model format.
- */
 function normalizeRemoteOKJob(job) {
   if (!job) return null;
 
@@ -141,9 +135,7 @@ function extractSkills(job) {
     );
   }
 
-  /*
-   * Some records may have a skill field.
-   */
+ 
   if (Array.isArray(job.skills)) {
     skills.push(
       ...job.skills

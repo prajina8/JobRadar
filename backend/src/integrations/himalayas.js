@@ -67,9 +67,7 @@ export async function fetchHimalayasJobs() {
   }
 }
 
-/**
- * Convert Himalayas job format into our Job model format.
- */
+
 function normalizeHimalayasJob(job) {
   if (!job) return null;
 
