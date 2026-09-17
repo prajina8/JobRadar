@@ -11,6 +11,7 @@ import { syncExternalJobs } from "./services/jobImporter.js";
 import { deactivateExpiredJobs } from "./services/jobExpiry.js";
 
 
+
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
@@ -47,10 +48,17 @@ const SYNC_INTERVAL_MS = Number(process.env.JOB_SYNC_INTERVAL_HOURS || 6) * 60 *
 const EXPIRY_SWEEP_MS = 60 * 60 * 1000; // check for expired listings every hour
 
 connectDB().then(() => {
-  
-  syncExternalJobs();
-  setInterval(syncExternalJobs, SYNC_INTERVAL_MS);
-  setInterval(deactivateExpiredJobs, EXPIRY_SWEEP_MS);
+  // Run once at boot, then keep re-syncing automatically so new external
+  // listings keep flowing in without anyone triggering it by hand.
+  // .catch here is a last line of defense — syncExternalJobs already
+  // catches per-job errors internally, but this ensures nothing it does
+  // can ever crash the process via an unhandled promise rejection.
+  const runSync = () => syncExternalJobs().catch((err) => console.error("Job sync failed:", err.message));
+  const runSweep = () => deactivateExpiredJobs().catch((err) => console.error("Expiry sweep failed:", err.message));
+
+  runSync();
+  setInterval(runSync, SYNC_INTERVAL_MS);
+  setInterval(runSweep, EXPIRY_SWEEP_MS);
 
   app.listen(port, () => console.log(`SmartJob server running on port ${port}`));
 }).catch((err) => {
