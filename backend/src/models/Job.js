@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+export const MAX_JOB_POSTS_PER_RECRUITER = 10;
+
+
 const jobSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
   company: { type: String, required: true, trim: true },
@@ -20,6 +23,23 @@ const jobSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
   recruiter: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 }, { timestamps: true });
+
+jobSchema.index({isActive:1, deadline: 1});
+jobSchema.pre("save", function (next) {
+  const maxDeadline = new Date(
+    (this.postedDate || Date.now()).valueOf() + MAX_JOB_LIFETIME_DAYS * 86400000
+  );
+
+  if (!this.deadline || this.deadline > maxDeadline) {
+    this.deadline = maxDeadline;
+  }
+
+  if (this.deadline.getTime() <= Date.now()) {
+    this.isActive = false;
+  }
+
+  next();
+});
 
 jobSchema.index({ title: "text", company: "text", description: "text", skills: "text", location: "text" });
 jobSchema.index({ source: 1, externalId: 1 }, { unique: true, sparse: true });

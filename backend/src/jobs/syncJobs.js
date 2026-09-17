@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { connectDB } from "../config/db.js";
-import { syncExternalJobs } from "../services/jobSyncService.js";
+import { syncExternalJobs } from "../services/jobImporter.js";
 
 await connectDB();
 const result = await syncExternalJobs();

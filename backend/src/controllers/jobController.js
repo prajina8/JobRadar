@@ -4,7 +4,8 @@ import SavedJob from "../models/SavedJob.js";
 export async function listJobs(req, res) {
   try {
     const { q, location, jobType, workMode, experienceLevel, posted, page = 1, limit = 12 } = req.query;
-    const filter = { isActive: true };
+   const filter = { isActive: true, $or: [{ deadline: null }, { deadline: { $gte: new Date() } }] };
+   
     if (q) filter.$text = { $search: q };
     if (location) filter.location = new RegExp(location, "i");
     if (jobType) filter.jobType = jobType;

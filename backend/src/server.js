@@ -8,7 +8,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { connectDB } from "./config/db.js";
 import { syncExternalJobs } from "./services/jobImporter.js";
-
+import { deactivateExpiredJobs } from "./services/jobExpiry.js";
 
 
 import authRoutes from "./routes/authRoutes.js";
@@ -43,8 +43,15 @@ const port = process.env.PORT || 5000;
 
 
 
+const SYNC_INTERVAL_MS = Number(process.env.JOB_SYNC_INTERVAL_HOURS || 6) * 60 * 60 * 1000;
+const EXPIRY_SWEEP_MS = 60 * 60 * 1000; // check for expired listings every hour
+
 connectDB().then(() => {
+  
   syncExternalJobs();
+  setInterval(syncExternalJobs, SYNC_INTERVAL_MS);
+  setInterval(deactivateExpiredJobs, EXPIRY_SWEEP_MS);
+
   app.listen(port, () => console.log(`SmartJob server running on port ${port}`));
 }).catch((err) => {
   console.error("Database startup failed:", err.message);
