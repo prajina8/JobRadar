@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api/axios.js";
 
 const blank = { title:"", company:"", description:"", requirements:"", skills:"", location:"Kathmandu", jobType:"Full-time", workMode:"Hybrid", experienceLevel:"Entry level", salary:"" };
