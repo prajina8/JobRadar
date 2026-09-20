@@ -155,6 +155,15 @@ a {
   font-size: 14px;
 }
 
+.nav-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 6px;
+  border: 1px solid var(--border);
+}
 
 
 .theme-toggle {
@@ -921,6 +930,64 @@ a {
   margin-top: 35px;
 }
 
+.forgot-link {
+  text-align: right;
+  margin: -8px 0 18px;
+  font-size: 13px;
+}
+
+.forgot-link a {
+  color: var(--plum);
+  font-weight: 650;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+.long {
+  line-height: 1.8;
+
+  color: var(--text-soft);
+
+  white-space: pre-line;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 22px 0 10px;
+}
+
+.avatar-preview {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--plum-light);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  font-size: 30px;
+  font-weight: 750;
+  color: var(--plum);
+}
+
+.avatar-hint {
+  font-size: 12px;
+  margin: 8px 0 0;
+}
 
 @media (max-width: 900px) {
   .hero {

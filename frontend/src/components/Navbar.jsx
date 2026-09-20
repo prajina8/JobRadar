@@ -16,6 +16,7 @@ import {
 
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import {resolveAvatarUrl} from "../utils/asset.js";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -92,8 +93,10 @@ export default function Navbar() {
 
         {user ? (
           <>
-            <Link to="/profile">
-              <UserCircle size={18} />
+             <Link to="/profile">
+              {user.avatar
+                ? <img className="nav-avatar" src={resolveAvatarUrl(user.avatar)} alt="" />
+                : <UserCircle size={18} />}
               {user.name}
             </Link>
 

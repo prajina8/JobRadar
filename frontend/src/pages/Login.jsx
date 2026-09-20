@@ -22,9 +22,11 @@ export default function Login() {
   return <AuthCard title="Welcome back" subtitle="Sign in to continue">
     <form onSubmit={submit}>
       {error && <div className="error">{error}</div>}
-      <label>Email<input type="email" required value={form.email} onChange={e => setForm({...form, email:e.target.value})}/></label>
+            <label>Email<input type="email" required value={form.email} onChange={e => setForm({...form, email:e.target.value})}/></label>
       <label>Password<input type="password" required value={form.password} onChange={e => setForm({...form, password:e.target.value})}/></label>
+      <p className="center muted forgot-link"><Link to="/forgot-password">Forgot password?</Link></p>
       <button className="btn full">Login</button>
+      
       <button type="button" className="google-btn" disabled>Continue with Google <small></small></button>
       <p className="center muted">New here? <Link to="/register">Create an account</Link></p>
     </form>

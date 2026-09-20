@@ -24,14 +24,22 @@ export function AuthProvider({ children }) {
     setUser(data.user);
     return data.user;
   }
-
   function logout() {
     localStorage.removeItem("smartjob_token");
     localStorage.removeItem("smartjob_user");
     setUser(null);
   }
 
-  const value = useMemo(() => ({ user, login, register, logout }), [user]);
+ 
+  function updateUser(patch) {
+    setUser((current) => {
+      const next = { ...(current || {}), ...patch };
+      localStorage.setItem("smartjob_user", JSON.stringify(next));
+      return next;
+    });
+  }
+
+  const value = useMemo(() => ({ user, login, register, logout, updateUser }), [user]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

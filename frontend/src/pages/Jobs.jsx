@@ -1,33 +1,9 @@
-import React,{ useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../api/axios.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
-function getCurrentUser() {
-  try {
-    const storedUser = localStorage.getItem("user");
-
-    if (!storedUser) return null;
-
-    return JSON.parse(storedUser);
-  } catch {
-    return null;
-  }
-}
-
-function getApplicantProfile() {
-  try {
-    const storedProfile = localStorage.getItem("profile");
-
-    if (!storedProfile) return null;
-
-    return JSON.parse(storedProfile);
-  } catch {
-    return null;
-  }
-}
+const JOBS_PAGE_SIZE = 24;
 
 function normalizeArray(value) {
   if (!value) return [];
@@ -56,11 +32,10 @@ function calculateMatchScore(job, profile) {
 
   const applicantLocation =
     profile.location?.toLowerCase()?.trim() || "";
+  const preferredLocations = normalizeArray(profile.preferences?.locations);
 
   const jobLocation =
     job.location?.toLowerCase()?.trim() || "";
-
- 
 
   if (applicantSkills.length && jobSkills.length) {
     const matchingSkills = applicantSkills.filter((skill) =>
@@ -74,32 +49,37 @@ function calculateMatchScore(job, profile) {
     const skillPercentage =
       matchingSkills.length / applicantSkills.length;
 
-    score += Math.round(skillPercentage * 70);
+    score += Math.round(skillPercentage * 55);
   }
 
+  const locationIsAMatch =
+    (applicantLocation &&
+      jobLocation &&
+      (jobLocation.includes(applicantLocation) ||
+        applicantLocation.includes(jobLocation))) ||
+    preferredLocations.some((loc) => jobLocation.includes(loc)) ||
+    job.workMode === "Remote";
 
-  if (
-    applicantLocation &&
-    jobLocation &&
-    (jobLocation.includes(applicantLocation) ||
-      applicantLocation.includes(jobLocation))
-  ) {
-    score += 20;
+  if (locationIsAMatch) {
+    score += 15;
   }
 
  
-  const preferredJobType =
-    profile.preferredJobType?.toLowerCase()?.trim();
+  const preferredJobTypes = normalizeArray(profile.preferences?.jobTypes);
+  const jobType = job.jobType?.toLowerCase()?.trim();
 
-  const jobType =
-    job.jobType?.toLowerCase()?.trim();
+  if (jobType && preferredJobTypes.includes(jobType)) {
+    score += 15;
+  }
 
-  if (
-    preferredJobType &&
-    jobType &&
-    preferredJobType === jobType
-  ) {
-    score += 10;
+  const interestsAndRoles = [
+    ...normalizeArray(profile.interests),
+    ...normalizeArray(profile.preferences?.desiredRoles)
+  ];
+  const title = job.title?.toLowerCase() || "";
+
+  if (interestsAndRoles.some((term) => term && title.includes(term))) {
+    score += 15;
   }
 
   return Math.min(score, 100);
@@ -108,28 +88,50 @@ function calculateMatchScore(job, profile) {
 export default function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [totalJobs, setTotalJobs] = useState(0);
 
   const [search, setSearch] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
 
-  const user = getCurrentUser();
-  const profile = getApplicantProfile();
+  const [profile, setProfile] = useState(null);
 
+  const { user } = useAuth();
   const isLoggedIn = Boolean(user);
 
   useEffect(() => {
-    fetchJobs();
+    setJobs([]);
+    setPage(1);
+    fetchJobs(1, false);
   }, []);
 
-  async function fetchJobs() {
+ 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setProfile(null);
+      return;
+    }
+    api.get("/profile").then((res) => setProfile(res.data)).catch(() => setProfile(null));
+  }, [isLoggedIn]);
+
+  async function fetchJobs(pageToLoad, append) {
     try {
-      setLoading(true);
+      append ? setLoadingMore(true) : setLoading(true);
       setError("");
 
-      const response = await axios.get(`${API_URL}/jobs`);
+      const response = await api.get("/jobs", {
+        params: { page: pageToLoad, limit: JOBS_PAGE_SIZE }
+      });
 
-      setJobs(response.data.jobs || []);
+      const { jobs: newJobs = [], page: currentPage = pageToLoad, pages = 1, total = 0 } = response.data;
+
+      setJobs((prev) => (append ? [...prev, ...newJobs] : newJobs));
+      setPage(currentPage);
+      setHasMore(currentPage < pages);
+      setTotalJobs(total);
     } catch (err) {
       console.error("Failed to load jobs:", err);
 
@@ -139,10 +141,13 @@ export default function Jobs() {
       );
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   }
 
-
+  function loadMore() {
+    fetchJobs(page + 1, true);
+  }
 
   const filteredJobs = useMemo(() => {
     const searchText = search.toLowerCase().trim();
@@ -178,8 +183,8 @@ export default function Jobs() {
 
       return matchesSearch && matchesLocation;
     });
-  }, [jobs, search, locationFilter]);
-
+  }, 
+  [jobs, search, locationFilter]);
 
   const sortedJobs = useMemo(() => {
     const jobsWithScore = filteredJobs.map((job) => ({
@@ -187,14 +192,12 @@ export default function Jobs() {
       matchScore: calculateMatchScore(job, profile),
     }));
 
-   
     if (isLoggedIn && profile) {
       return jobsWithScore.sort(
         (a, b) => b.matchScore - a.matchScore
       );
     }
 
-   
     return jobsWithScore;
   }, [filteredJobs, profile, isLoggedIn]);
 
@@ -299,7 +302,7 @@ export default function Jobs() {
         <h1>Find Your Next Job</h1>
         <p>{error}</p>
 
-        <button onClick={fetchJobs}>
+        <button onClick={() => fetchJobs(1, false)}>
           Try Again
         </button>
       </div>
@@ -309,7 +312,7 @@ export default function Jobs() {
   return (
     <div className="jobs-page">
 
-      {/* Header */}
+     
 
       <div className="jobs-header">
         <div>
@@ -335,8 +338,6 @@ export default function Jobs() {
         </div>
       </div>
 
-    
-
       <div className="job-search">
 
         <input
@@ -358,9 +359,7 @@ export default function Jobs() {
         />
 
       </div>
-
-    
-
+      
       {!isLoggedIn && (
         <section>
           <div className="section-header">
@@ -384,8 +383,6 @@ export default function Jobs() {
           )}
         </section>
       )}
-
-
 
       {isLoggedIn && profile && (
         <>
@@ -447,7 +444,6 @@ export default function Jobs() {
         </>
       )}
 
-      
       {isLoggedIn && !profile && (
         <section>
           <div className="profile-message">
@@ -479,6 +475,18 @@ export default function Jobs() {
             ))}
           </div>
         </section>
+      )}
+
+      {!search && !locationFilter && hasMore && (
+        <div className="load-more-wrap">
+          <button
+            className="load-more"
+            onClick={loadMore}
+            disabled={loadingMore}
+          >
+            {loadingMore ? "Loading..." : `Load more jobs (${jobs.length} of ${totalJobs})`}
+          </button>
+        </div>
       )}
 
       <style>{`
@@ -598,6 +606,30 @@ export default function Jobs() {
           border-radius: 10px;
           background: #fff7ed;
           margin-bottom: 25px;
+        }
+
+        .load-more-wrap {
+          display: flex;
+          justify-content: center;
+          margin: 10px 0 40px;
+        }
+
+        .load-more {
+          padding: 12px 22px;
+          border-radius: 8px;
+          border: 1px solid #f97316;
+          background: white;
+          color: #f97316;
+          font-weight: 600;
+        }
+
+        .load-more:hover:not(:disabled) {
+          background: #fff3e8;
+        }
+
+        .load-more:disabled {
+          opacity: 0.6;
+          cursor: default;
         }
 
         @media (max-width: 700px) {
