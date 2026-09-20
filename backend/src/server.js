@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import path from "path";
+import { fileURLToPath } from "url";
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -29,6 +32,16 @@ app.use(express.json({ limit: "1mb" }));
 app.use(morgan("dev"));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300 }));
 
+
+app.use(
+  "/uploads",
+  (req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    next();
+  },
+  express.static(path.join(__dirname, "..", "uploads"))
+);
+
 app.get("/api/health", (_req, res) => res.json({ ok: true, message: "SmartJob API is running" }));
 
 app.use("/api/auth", authRoutes);
@@ -48,11 +61,7 @@ const SYNC_INTERVAL_MS = Number(process.env.JOB_SYNC_INTERVAL_HOURS || 6) * 60 *
 const EXPIRY_SWEEP_MS = 60 * 60 * 1000; // check for expired listings every hour
 
 connectDB().then(() => {
-  // Run once at boot, then keep re-syncing automatically so new external
-  // listings keep flowing in without anyone triggering it by hand.
-  // .catch here is a last line of defense — syncExternalJobs already
-  // catches per-job errors internally, but this ensures nothing it does
-  // can ever crash the process via an unhandled promise rejection.
+  
   const runSync = () => syncExternalJobs().catch((err) => console.error("Job sync failed:", err.message));
   const runSweep = () => deactivateExpiredJobs().catch((err) => console.error("Expiry sweep failed:", err.message));
 

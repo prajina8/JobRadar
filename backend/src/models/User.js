@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema({
     jobTypes: [{ type: String }],
     workModes: [{ type: String }],
     desiredRoles: [{ type: String }]
-  }
+  },
+  resetOtpHash: { type: String, select: false },
+  resetOtpExpires: { type: Date, select: false }
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);

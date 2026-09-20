@@ -3,7 +3,7 @@ import SavedJob from "../models/SavedJob.js";
 
 export async function listJobs(req, res) {
   try {
-    const { q, location, jobType, workMode, experienceLevel, posted, page = 1, limit = 12 } = req.query;
+        const { q, location, jobType, workMode, experienceLevel, posted, page = 1, limit = 24 } = req.query;
    const filter = { isActive: true, $or: [{ deadline: null }, { deadline: { $gte: new Date() } }] };
    
     if (q) filter.$text = { $search: q };
@@ -15,12 +15,15 @@ export async function listJobs(req, res) {
       const days = Number(posted);
       if (Number.isFinite(days)) filter.postedDate = { $gte: new Date(Date.now() - days * 86400000) };
     }
-    const skip = (Number(page) - 1) * Number(limit);
+   
+    const safeLimit = Math.min(Math.max(Number(limit) || 24, 1), 100);
+    const skip = (Number(page) - 1) * safeLimit;
     const [jobs, total] = await Promise.all([
-      Job.find(filter).sort({ postedDate: -1 }).skip(skip).limit(Number(limit)),
+      Job.find(filter).sort({ postedDate: -1 }).skip(skip).limit(safeLimit),
       Job.countDocuments(filter)
     ]);
-    res.json({ jobs, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+  
+        res.json({ jobs, total, page: Number(page), limit: safeLimit, pages: Math.ceil(total / safeLimit) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -69,8 +72,10 @@ export async function savedJobs(req, res) {
 }
 
 export async function recommendations(req, res) {
-  const jobs = await Job.find({ isActive: true }).sort({ postedDate: -1 }).limit(200).lean();
+
+  const jobs = await Job.find({ isActive: true }).sort({ postedDate: -1 }).limit(500).lean();
   const user = req.user;
+
   const userSkills = new Set((user.skills || []).map(s => s.toLowerCase()));
   const interests = (user.interests || []).map(s => s.toLowerCase());
   const roles = (user.preferences?.desiredRoles || []).map(s => s.toLowerCase());
@@ -89,9 +94,9 @@ export async function recommendations(req, res) {
     return { ...job, matchScore: score };
   }).sort((a, b) => b.matchScore - a.matchScore);
 
-  res.json(ranked.slice(0, 20));
+  const requested = Math.min(Math.max(Number(req.query.limit) || 60, 1), 200);
+  res.json(ranked.slice(0, requested));
 }
-
 function experienceMatches(years, level) {
   if (level === "Internship") return years <= 1;
   if (level === "Entry level") return years <= 1;

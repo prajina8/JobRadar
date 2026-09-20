@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 export const MAX_JOB_POSTS_PER_RECRUITER = 10;
 
+export const MAX_JOB_LIFETIME_DAYS = 30;
+
 
 const jobSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
