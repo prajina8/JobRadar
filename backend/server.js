@@ -15,12 +15,12 @@ import { syncExternalJobs } from "./src/services/jobImporter.js";
 import { deactivateExpiredJobs } from "./src/services/jobExpiry.js";
 
 
-
 import authRoutes from "./src/routes/authRoutes.js";
 import jobRoutes from "./src/routes/jobRoutes.js";
 import applicationRoutes from "./src/routes/applicationRoutes.js";
 import profileRoutes from "./src/routes/profileRoutes.js";
 import adminRoutes from "./src/routes/adminRoutes.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
