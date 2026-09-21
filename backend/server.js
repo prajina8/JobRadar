@@ -5,21 +5,25 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import express from "express";
+
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import { connectDB } from "./config/db.js";
-import { syncExternalJobs } from "./services/jobImporter.js";
-import { deactivateExpiredJobs } from "./services/jobExpiry.js";
+import { connectDB } from "./src/config/db.js";
+import { syncExternalJobs } from "./src/services/jobImporter.js";
+import { deactivateExpiredJobs } from "./src/services/jobExpiry.js";
 
 
 
-import authRoutes from "./routes/authRoutes.js";
-import jobRoutes from "./routes/jobRoutes.js";
-import applicationRoutes from "./routes/applicationRoutes.js";
-import profileRoutes from "./routes/profileRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import jobRoutes from "./src/routes/jobRoutes.js";
+import applicationRoutes from "./src/routes/applicationRoutes.js";
+import profileRoutes from "./src/routes/profileRoutes.js";
+import adminRoutes from "./src/routes/adminRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios.js";
+import ResetPassword from "./ResetPassword.jsx";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
