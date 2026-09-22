@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   BriefcaseBusiness,
@@ -25,21 +25,30 @@ export default function Navbar() {
 
   const navigate = useNavigate();
 
-  function handleLogout() {
-    logout();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+const [loggingOut, setLoggingOut] = useState(false);
+
+async function handleLogout() {
+  setLoggingOut(true);
+
+  try {
+    await logout();
     navigate("/");
+  } finally {
+    setLoggingOut(false);
+    setShowLogoutConfirm(false);
   }
+}
 
   return (
     <header className="nav">
 
-      {/* Logo */}
+    
       <Link to="/" className="brand">
         <BriefcaseBusiness size={22} />
         SmartJob
       </Link>
 
-      {/* Navigation */}
       <nav>
         <Link to="/jobs">
           Jobs
@@ -70,10 +79,10 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Right side */}
+      
       <div className="nav-actions">
 
-        {/* Theme Toggle */}
+       
         <button
           className="theme-toggle"
           onClick={toggleTheme}
@@ -100,13 +109,14 @@ export default function Navbar() {
               {user.name}
             </Link>
 
-            <button
-              className="ghost"
-              onClick={handleLogout}
-            >
-              <LogOut size={17} />
-              Logout
-            </button>
+           <button
+  className="ghost"
+  onClick={() => setShowLogoutConfirm(true)}
+  disabled={loggingOut}
+>
+  <LogOut size={17} />
+  Logout
+</button>
           </>
         ) : (
           <>
@@ -125,6 +135,49 @@ export default function Navbar() {
 
       </div>
 
+{showLogoutConfirm && (
+  <div className="modal-overlay">
+    <div className="confirm-modal">
+      <div className="confirm-icon">
+        <LogOut size={24} />
+      </div>
+
+      <h2>Do you want to logout?</h2>
+
+      <p>
+        You will be signed out of your SmartJob account.
+      </p>
+
+      <div className="confirm-actions">
+        <button
+          className="ghost"
+          onClick={() => setShowLogoutConfirm(false)}
+          disabled={loggingOut}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="btn danger-btn"
+          onClick={handleLogout}
+          disabled={loggingOut}
+        >
+          {loggingOut ? (
+            <>
+              <span className="spinner" />
+              Logging out...
+            </>
+          ) : (
+            <>
+              <LogOut size={16} />
+              Logout
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </header>
   );
 }
