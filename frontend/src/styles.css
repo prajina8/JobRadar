@@ -1058,4 +1058,44 @@ a {
   .stats {
     grid-template-columns: 1fr;
   }
+  .job-description {
+  line-height: 1.7;
+  color: #444;
+}
+
+.job-description h1,
+.job-description h2,
+.job-description h3 {
+  margin: 24px 0 12px;
+  color: #222;
+  font-weight: 700;
+}
+
+.job-description p {
+  margin: 0 0 16px;
+}
+
+.job-description ul,
+.job-description ol {
+  margin: 12px 0 18px;
+  padding-left: 25px;
+}
+
+.job-description li {
+  margin-bottom: 8px;
+}
+
+.job-description strong {
+  font-weight: 700;
+}
+
+.job-description a {
+  color: #c75b12;
+  text-decoration: underline;
+}
+
+.job-description br {
+  display: block;
+  margin-bottom: 8px;
+}
 }
