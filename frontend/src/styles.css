@@ -1,10 +1,11 @@
-
 :root {
   --bg: #f7f5f3;
   --surface: #ffffff;
   --surface-2: #f0edeb;
+
   --text: #191619;
   --text-soft: #686168;
+
   --border: #ddd7dc;
 
   --plum: #542746;
@@ -21,16 +22,22 @@
   --shadow: 0 18px 50px rgba(40, 20, 35, 0.08);
 }
 
+/* =========================================================
+   DARK THEME
+   ========================================================= */
+
 [data-theme="dark"] {
   --bg: #110e10;
   --surface: #1b171a;
   --surface-2: #251f23;
+
   --text: #f5f1f3;
   --text-soft: #aaa1a8;
+
   --border: #393138;
 
-  --plum: #b06a92;
-  --plum-dark: #7e3d63;
+  --plum: #c27aa2;
+  --plum-dark: #9b4f78;
   --plum-light: #39232f;
 
   --amber: #d7a24e;
@@ -43,7 +50,9 @@
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -87,25 +96,24 @@ a {
   text-decoration: none;
 }
 
-
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 .nav {
   height: 72px;
 
   background: var(--surface);
-
   border-bottom: 1px solid var(--border);
 
   display: flex;
   align-items: center;
 
   padding: 0 6%;
-
   gap: 32px;
 
   position: sticky;
   top: 0;
-
   z-index: 100;
 
   transition:
@@ -135,7 +143,6 @@ a {
   flex: 1;
 
   color: var(--text-soft);
-
   font-size: 14px;
 }
 
@@ -155,27 +162,66 @@ a {
   font-size: 14px;
 }
 
+.nav-profile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 40px;
+
+  color: var(--text);
+  font-weight: 650;
+
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.nav-profile:hover {
+  color: var(--plum);
+}
+
+.nav-profile-icon {
+  width: 28px;
+  height: 28px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 28px;
+
+  color: var(--plum);
+}
+
 .nav-avatar {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+
+  display: block;
+
   object-fit: cover;
-  vertical-align: middle;
-  margin-right: 6px;
+  border-radius: 50%;
+
   border: 1px solid var(--border);
 }
 
+.nav-profile-name {
+  line-height: 1;
+}
+
+/* =========================================================
+   THEME TOGGLE
+   ========================================================= */
 
 .theme-toggle {
   width: 40px;
   height: 40px;
 
   border-radius: 50%;
-
   border: 1px solid var(--border);
 
   background: var(--surface-2);
-
   color: var(--text);
 
   display: grid;
@@ -190,10 +236,9 @@ a {
 .theme-toggle:hover {
   background: var(--amber-light);
   color: var(--amber);
+
   transform: rotate(12deg);
 }
-
-
 
 .btn {
   border: none;
@@ -202,7 +247,6 @@ a {
   color: #ffffff;
 
   padding: 12px 18px;
-
   border-radius: 9px;
 
   display: inline-flex;
@@ -239,7 +283,6 @@ a {
 
 .btn.outline {
   background: transparent;
-
   color: var(--plum);
 
   border: 1px solid var(--plum);
@@ -259,12 +302,13 @@ a {
 
 .ghost {
   border: none;
-  background: transparent;
 
+  background: transparent;
   color: var(--text-soft);
 
   display: inline-flex;
   align-items: center;
+
   gap: 6px;
 }
 
@@ -272,7 +316,9 @@ a {
   color: var(--plum);
 }
 
-
+/* =========================================================
+   HERO
+   ========================================================= */
 
 .hero {
   max-width: 1200px;
@@ -298,15 +344,12 @@ a {
   color: var(--amber);
 
   font-weight: 850;
-
   font-size: 12px;
 
   text-transform: uppercase;
-
   letter-spacing: 0.1em;
 
   display: inline-flex;
-
   align-items: center;
 
   gap: 6px;
@@ -346,7 +389,9 @@ a {
   margin-top: 30px;
 }
 
-
+/* =========================================================
+   HERO PANEL
+   ========================================================= */
 
 .hero-panel {
   background: var(--surface);
@@ -393,7 +438,9 @@ a {
   color: var(--text-soft);
 }
 
-
+/* =========================================================
+   SECTIONS
+   ========================================================= */
 
 .section,
 .page {
@@ -412,6 +459,10 @@ a {
 
   margin: 10px 0 28px;
 }
+
+/* =========================================================
+   FEATURES
+   ========================================================= */
 
 .features {
   display: grid;
@@ -457,13 +508,14 @@ a {
   line-height: 1.65;
 }
 
-
+/* =========================================================
+   AUTHENTICATION
+   ========================================================= */
 
 .auth-page {
   min-height: calc(100vh - 72px);
 
   display: grid;
-
   place-items: center;
 
   padding: 45px 20px;
@@ -536,7 +588,16 @@ a {
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.auth-card input::placeholder,
+.detail-card input::placeholder,
+.detail-card textarea::placeholder,
+.filters input::placeholder {
+  color: var(--text-soft);
 }
 
 .auth-card input:focus,
@@ -571,10 +632,42 @@ a {
   color: var(--text);
 
   border-radius: 9px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.google-btn:hover {
+  background: var(--surface-2);
+
+  border-color: var(--plum);
 }
 
 /* =========================================================
-   JOB SEARCH
+   FORGOT PASSWORD
+   ========================================================= */
+
+.forgot-link {
+  text-align: right;
+
+  margin: -8px 0 18px;
+
+  font-size: 13px;
+}
+
+.forgot-link a {
+  color: var(--plum);
+
+  font-weight: 650;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   JOB FILTERS
    ========================================================= */
 
 .filters {
@@ -601,6 +694,10 @@ a {
   margin-bottom: 28px;
 }
 
+/* =========================================================
+   GENERAL JOB GRID
+   ========================================================= */
+
 .job-grid {
   display: grid;
 
@@ -609,7 +706,9 @@ a {
   gap: 18px;
 }
 
-
+/* =========================================================
+   JOB CARD
+   ========================================================= */
 
 .job-card {
   background: var(--surface);
@@ -620,10 +719,13 @@ a {
 
   padding: 21px;
 
+  color: var(--text);
+
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .job-card:hover {
@@ -646,6 +748,12 @@ a {
   margin: 7px 0 14px;
 
   font-size: 20px;
+
+  color: var(--text);
+}
+
+.job-card p {
+  color: var(--text-soft);
 }
 
 .company {
@@ -655,6 +763,10 @@ a {
 
   margin: 0;
 }
+
+/* =========================================================
+   ICON BUTTON
+   ========================================================= */
 
 .icon-btn {
   width: 38px;
@@ -670,13 +782,24 @@ a {
   background: var(--surface-2);
 
   color: var(--text-soft);
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .icon-btn:hover {
   color: var(--amber);
 
   border-color: var(--amber);
+
+  background: var(--amber-light);
 }
+
+/* =========================================================
+   CHIPS AND SKILLS
+   ========================================================= */
 
 .chips,
 .skills {
@@ -714,6 +837,10 @@ a {
   color: var(--plum);
 }
 
+/* =========================================================
+   MATCH SCORE
+   ========================================================= */
+
 .match {
   display: inline-block;
 
@@ -730,7 +857,9 @@ a {
   margin: 10px 0;
 }
 
-
+/* =========================================================
+   DETAIL PAGE
+   ========================================================= */
 
 .narrow {
   max-width: 850px;
@@ -746,6 +875,8 @@ a {
   padding: 34px;
 
   box-shadow: var(--shadow);
+
+  color: var(--text);
 }
 
 .detail-card h1 {
@@ -758,14 +889,6 @@ a {
   font-size: 21px;
 }
 
-.long {
-  line-height: 1.8;
-
-  color: var(--text-soft);
-
-  white-space: pre-line;
-}
-
 .detail-card hr {
   border: 0;
 
@@ -774,7 +897,143 @@ a {
   margin: 26px 0;
 }
 
+/* =========================================================
+   LONG TEXT
+   ========================================================= */
 
+.long {
+  line-height: 1.8;
+
+  color: var(--text-soft);
+
+  white-space: pre-line;
+}
+
+/* =========================================================
+   JOB DESCRIPTION
+   ========================================================= */
+
+.job-description {
+  line-height: 1.7;
+
+  color: var(--text-soft);
+
+  word-wrap: break-word;
+
+  overflow-wrap: anywhere;
+}
+
+.job-description h1,
+.job-description h2,
+.job-description h3 {
+  margin: 24px 0 12px;
+
+  color: var(--text);
+
+  font-weight: 700;
+}
+
+.job-description h1 {
+  font-size: 28px;
+}
+
+.job-description h2 {
+  font-size: 23px;
+}
+
+.job-description h3 {
+  font-size: 19px;
+}
+
+.job-description p {
+  margin: 0 0 16px;
+
+  color: var(--text-soft);
+}
+
+.job-description ul,
+.job-description ol {
+  margin: 12px 0 18px;
+
+  padding-left: 25px;
+}
+
+.job-description li {
+  margin-bottom: 8px;
+
+  color: var(--text-soft);
+}
+
+.job-description strong,
+.job-description b {
+  font-weight: 700;
+
+  color: var(--text);
+}
+
+.job-description em {
+  color: var(--text-soft);
+}
+
+.job-description a {
+  color: var(--amber);
+
+  text-decoration: underline;
+}
+
+.job-description a:hover {
+  color: var(--amber-dark);
+}
+
+.job-description br {
+  display: block;
+
+  margin-bottom: 8px;
+}
+
+.job-description blockquote {
+  margin: 18px 0;
+
+  padding: 12px 18px;
+
+  border-left: 4px solid var(--plum);
+
+  background: var(--surface-2);
+
+  color: var(--text-soft);
+
+  border-radius: 4px;
+}
+
+.job-description code {
+  padding: 2px 6px;
+
+  border-radius: 5px;
+
+  background: var(--surface-2);
+
+  color: var(--plum);
+
+  font-size: 0.9em;
+}
+
+.job-description pre {
+  padding: 16px;
+
+  overflow-x: auto;
+
+  border-radius: 10px;
+
+  background: var(--surface-2);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+}
+
+/* =========================================================
+   APPLICATIONS
+   ========================================================= */
 
 .application-list {
   display: grid;
@@ -798,6 +1057,8 @@ a {
   justify-content: space-between;
 
   margin-bottom: 9px;
+
+  color: var(--text);
 }
 
 .application h3 {
@@ -813,6 +1074,8 @@ a {
 .status {
   background: var(--surface-2);
 
+  color: var(--text);
+
   padding: 7px 10px;
 
   border-radius: 999px;
@@ -822,7 +1085,9 @@ a {
   font-weight: 750;
 }
 
-
+/* =========================================================
+   TWO COLUMN LAYOUT
+   ========================================================= */
 
 .two-col {
   display: grid;
@@ -840,7 +1105,9 @@ a {
   gap: 10px;
 }
 
-
+/* =========================================================
+   STATISTICS
+   ========================================================= */
 
 .stats {
   display: grid;
@@ -858,6 +1125,8 @@ a {
   border-radius: 15px;
 
   padding: 24px;
+
+  color: var(--text);
 }
 
 .stat span,
@@ -879,6 +1148,9 @@ a {
   color: var(--plum);
 }
 
+/* =========================================================
+   STATUS MESSAGES
+   ========================================================= */
 
 .error {
   background: rgba(163, 59, 59, 0.1);
@@ -918,6 +1190,10 @@ a {
   color: var(--text-soft);
 }
 
+/* =========================================================
+   UTILITY CLASSES
+   ========================================================= */
+
 .center {
   text-align: center;
 }
@@ -930,64 +1206,497 @@ a {
   margin-top: 35px;
 }
 
-.forgot-link {
-  text-align: right;
-  margin: -8px 0 18px;
-  font-size: 13px;
-}
-
-.forgot-link a {
-  color: var(--plum);
-  font-weight: 650;
-}
-
-.forgot-link a:hover {
-  text-decoration: underline;
-}
-.long {
-  line-height: 1.8;
-
-  color: var(--text-soft);
-
-  white-space: pre-line;
-}
+/* =========================================================
+   AVATAR
+   ========================================================= */
 
 .avatar-row {
   display: flex;
+
   align-items: center;
+
   gap: 20px;
+
   margin: 22px 0 10px;
 }
 
 .avatar-preview {
   width: 84px;
   height: 84px;
+
   border-radius: 50%;
+
   overflow: hidden;
+
   background: var(--plum-light);
+
   border: 1px solid var(--border);
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
 }
 
 .avatar-preview img {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
 }
 
 .avatar-fallback {
   font-size: 30px;
+
   font-weight: 750;
+
   color: var(--plum);
 }
 
 .avatar-hint {
   font-size: 12px;
+
   margin: 8px 0 0;
+
+  color: var(--text-soft);
 }
+
+/* =========================================================
+   INITIAL LOADER
+   ========================================================= */
+
+.initial-loader {
+  min-height: 60vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.initial-loader svg {
+  color: var(--plum);
+
+  margin-bottom: 16px;
+}
+
+.initial-loader h2 {
+  margin: 0 0 8px;
+}
+
+.initial-loader p {
+  margin: 0;
+
+  color: var(--text-soft);
+}
+
+/* =========================================================
+   JOBS PAGE
+   ========================================================= */
+
+.jobs-page {
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 55px 6%;
+
+  color: var(--text);
+}
+
+.jobs-header {
+  margin-bottom: 25px;
+}
+
+.jobs-header h1 {
+  margin: 0 0 8px;
+
+  color: var(--text);
+
+  font-size: clamp(32px, 4vw, 44px);
+
+  letter-spacing: -0.03em;
+}
+
+.jobs-header p {
+  margin: 0;
+
+  color: var(--text-soft);
+
+  line-height: 1.65;
+}
+
+/* =========================================================
+   JOB SEARCH
+   ========================================================= */
+
+.job-search {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 35px;
+}
+
+.job-search input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 13px 15px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.job-search input::placeholder {
+  color: var(--text-soft);
+}
+
+.job-search input:focus {
+  border-color: var(--plum);
+
+  box-shadow: 0 0 0 3px var(--plum-light);
+}
+
+/* =========================================================
+   JOB SECTIONS
+   ========================================================= */
+
+.jobs-page section {
+  margin-bottom: 45px;
+}
+
+.section-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.section-header h2 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 25px;
+}
+
+.section-header span {
+  color: var(--text-soft);
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   JOBS GRID
+   ========================================================= */
+
+.jobs-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(330px, 1fr)
+  );
+
+  gap: 20px;
+}
+
+/* =========================================================
+   JOBS PAGE CARD
+   ========================================================= */
+
+.jobs-page .job-card {
+  padding: 20px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  box-shadow: var(--shadow);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.jobs-page .job-card:hover {
+  transform: translateY(-3px);
+
+  border-color: var(--plum);
+}
+
+.job-card-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.jobs-page .job-card h3 {
+  margin: 0 0 6px;
+
+  color: var(--text);
+}
+
+.jobs-page .job-card p {
+  color: var(--text-soft);
+}
+
+.jobs-page .company {
+  color: var(--plum);
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   MATCH SCORE
+   ========================================================= */
+
+.match-score {
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: var(--amber-light);
+
+  color: var(--amber);
+
+  white-space: nowrap;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   JOB SKILLS
+   ========================================================= */
+
+.jobs-page .skills {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin: 15px 0;
+}
+
+.jobs-page .skills span {
+  padding: 5px 9px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  background: var(--surface-2);
+
+  color: var(--text-soft);
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   JOB FOOTER
+   ========================================================= */
+
+.job-footer {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 15px;
+}
+
+.job-footer small {
+  color: var(--text-soft);
+}
+
+.view-job {
+  margin-left: auto;
+
+  color: var(--plum);
+
+  font-weight: 750;
+}
+
+.view-job:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   PROFILE / EMPTY STATES
+   ========================================================= */
+
+.profile-message,
+.empty-state {
+  padding: 25px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+
+  background: var(--plum-light);
+
+  color: var(--text);
+}
+
+.profile-message p,
+.empty-state p {
+  color: var(--text-soft);
+
+  line-height: 1.6;
+}
+
+.create-profile {
+  display: inline-flex;
+
+  padding: 9px 14px;
+
+  border-radius: 8px;
+
+  background: var(--plum);
+
+  color: #fff;
+
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.create-profile:hover {
+  background: var(--plum-dark);
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   LOAD MORE / RETRY
+   ========================================================= */
+
+.load-more-wrap {
+  display: flex;
+
+  justify-content: center;
+
+  margin: 10px 0 40px;
+}
+
+.load-more,
+.retry-button {
+  padding: 12px 22px;
+
+  border: 1px solid var(--plum);
+
+  border-radius: 9px;
+
+  background: var(--surface);
+
+  color: var(--plum);
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.load-more:hover:not(:disabled),
+.retry-button:hover {
+  background: var(--plum);
+
+  color: #fff;
+
+  transform: translateY(-1px);
+}
+
+.load-more:disabled {
+  opacity: 0.6;
+
+  cursor: default;
+}
+
+/* =========================================================
+   DARK THEME - EXTRA FIXES
+   ========================================================= */
+
+[data-theme="dark"] .job-description {
+  color: var(--text-soft);
+}
+
+[data-theme="dark"] .job-description p,
+[data-theme="dark"] .job-description li {
+  color: var(--text-soft);
+}
+
+[data-theme="dark"] .job-description h1,
+[data-theme="dark"] .job-description h2,
+[data-theme="dark"] .job-description h3,
+[data-theme="dark"] .job-description strong,
+[data-theme="dark"] .job-description b {
+  color: var(--text);
+}
+
+[data-theme="dark"] .job-description a {
+  color: var(--amber);
+}
+
+[data-theme="dark"] .job-description blockquote,
+[data-theme="dark"] .job-description pre,
+[data-theme="dark"] .job-description code {
+  background: var(--surface-2);
+
+  color: var(--text);
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
 
 @media (max-width: 900px) {
   .hero {
@@ -1020,6 +1729,52 @@ a {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .job-search {
+    flex-direction: column;
+  }
+
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-footer {
+    align-items: flex-start;
+  }
+
+  .view-job {
+    margin-left: 0;
+  }
+
+  .nav-profile-name {
+    max-width: 110px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+  .nav-profile {
+    gap: 6px;
+  }
+
+  .nav-actions {
+    gap: 9px;
+  }
+
+  .ghost span {
+    display: none;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
   .hero {
@@ -1058,68 +1813,30 @@ a {
   .stats {
     grid-template-columns: 1fr;
   }
-  .job-description {
-  line-height: 1.7;
-  color: #444;
-}
 
-.job-description h1,
-.job-description h2,
-.job-description h3 {
-  margin: 24px 0 12px;
-  color: #222;
-  font-weight: 700;
-}
+  .jobs-page {
+    padding: 35px 5%;
+  }
 
-.job-description p {
-  margin: 0 0 16px;
-}
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
 
-.job-description ul,
-.job-description ol {
-  margin: 12px 0 18px;
-  padding-left: 25px;
-}
+  .job-card-header {
+    flex-direction: column;
+  }
 
-.job-description li {
-  margin-bottom: 8px;
-}
+  .match-score {
+    align-self: flex-start;
+  }
 
-.job-description strong {
-  font-weight: 700;
-}
+  .detail-card {
+    padding: 24px 20px;
+  }
 
-.job-description a {
-  color: #c75b12;
-  text-decoration: underline;
-}
+  .avatar-row {
+    align-items: flex-start;
 
-.job-description br {
-  display: block;
-  margin-bottom: 8px;
-}
-.initial-loader {
-  min-height: 60vh;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-}
-
-.initial-loader svg {
-  color: var(--plum);
-  margin-bottom: 16px;
-}
-
-.initial-loader h2 {
-  margin: 0 0 8px;
-}
-
-.initial-loader p {
-  margin: 0;
-  color: var(--text-soft);
-}
+    gap: 14px;
+  }
 }

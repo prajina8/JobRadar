@@ -489,159 +489,24 @@ export default function Jobs() {
         </div>
       )}
 
-      <style>{`
-        .jobs-page {
-          max-width: 1200px;
-          margin: auto;
-          padding: 30px 20px;
-        }
+      <section>
+  <div className="section-header">
+    <h2>Recommended Jobs</h2>
 
-        .jobs-header {
-          margin-bottom: 25px;
-        }
+    <span>
+      {recommendedJobs.length} matches
+    </span>
+  </div>
 
-        .jobs-header h1 {
-          margin-bottom: 8px;
-        }
-
-        .job-search {
-          display: flex;
-          gap: 12px;
-          margin-bottom: 35px;
-        }
-
-        .job-search input {
-          flex: 1;
-          padding: 13px 15px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          font-size: 15px;
-        }
-
-        section {
-          margin-bottom: 45px;
-        }
-
-        .section-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 18px;
-        }
-
-        .jobs-grid {
-          display: grid;
-          grid-template-columns:
-            repeat(auto-fill, minmax(330px, 1fr));
-          gap: 20px;
-        }
-
-        .job-card {
-          border: 1px solid #e5e5e5;
-          border-radius: 12px;
-          padding: 20px;
-          background: white;
-          box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-        }
-
-        .job-card-header {
-          display: flex;
-          justify-content: space-between;
-          gap: 15px;
-        }
-
-        .job-card h3 {
-          margin: 0 0 6px;
-        }
-
-        .company {
-          font-weight: 600;
-        }
-
-        .match-score {
-          background: #fff3e8;
-          color: #e66a00;
-          padding: 6px 10px;
-          border-radius: 20px;
-          white-space: nowrap;
-          font-size: 13px;
-          font-weight: 600;
-        }
-
-        .skills {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 7px;
-          margin: 15px 0;
-        }
-
-        .skills span {
-          background: #f3f3f3;
-          padding: 5px 9px;
-          border-radius: 15px;
-          font-size: 12px;
-        }
-
-        .job-footer {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-          margin-top: 15px;
-        }
-
-        .view-job,
-        .create-profile {
-          margin-left: auto;
-          text-decoration: none;
-          padding: 8px 14px;
-          border-radius: 7px;
-          background: #f97316;
-          color: white;
-        }
-
-        .empty-state,
-        .profile-message {
-          padding: 25px;
-          border-radius: 10px;
-          background: #fff7ed;
-          margin-bottom: 25px;
-        }
-
-        .load-more-wrap {
-          display: flex;
-          justify-content: center;
-          margin: 10px 0 40px;
-        }
-
-        .load-more {
-          padding: 12px 22px;
-          border-radius: 8px;
-          border: 1px solid #f97316;
-          background: white;
-          color: #f97316;
-          font-weight: 600;
-        }
-
-        .load-more:hover:not(:disabled) {
-          background: #fff3e8;
-        }
-
-        .load-more:disabled {
-          opacity: 0.6;
-          cursor: default;
-        }
-
-        @media (max-width: 700px) {
-          .job-search {
-            flex-direction: column;
-          }
-
-          .jobs-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+  <div className="jobs-grid">
+    {recommendedJobs.map((job) => (
+      <JobCard
+        key={job._id}
+        job={job}
+      />
+    ))}
+  </div>
+</section>
     </div>
   );
 }

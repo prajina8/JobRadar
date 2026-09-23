@@ -102,13 +102,23 @@ async function handleLogout() {
 
         {user ? (
           <>
-             <Link to="/profile">
-              {user.avatar
-                ? <img className="nav-avatar" src={resolveAvatarUrl(user.avatar)} alt="" />
-                : <UserCircle size={18} />}
-              {user.name}
-            </Link>
+          <Link to="/profile" className="nav-profile">
+  <span className="nav-profile-icon">
+    {user.avatar ? (
+      <img
+        className="nav-avatar"
+        src={resolveAvatarUrl(user.avatar)}
+        alt=""
+      />
+    ) : (
+      <UserCircle size={21} />
+    )}
+  </span>
 
+  <span className="nav-profile-name">
+    {user.name}
+  </span>
+</Link>
            <button
   className="ghost"
   onClick={() => setShowLogoutConfirm(true)}
