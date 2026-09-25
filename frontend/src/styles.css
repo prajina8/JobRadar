@@ -22,9 +22,6 @@
   --shadow: 0 18px 50px rgba(40, 20, 35, 0.08);
 }
 
-/* =========================================================
-   DARK THEME
-   ========================================================= */
 
 [data-theme="dark"] {
   --bg: #110e10;
@@ -50,9 +47,6 @@
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-/* =========================================================
-   GLOBAL
-   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -96,9 +90,6 @@ a {
   text-decoration: none;
 }
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
 
 .nav {
   height: 72px;
@@ -210,9 +201,6 @@ a {
   line-height: 1;
 }
 
-/* =========================================================
-   THEME TOGGLE
-   ========================================================= */
 
 .theme-toggle {
   width: 40px;
@@ -316,9 +304,6 @@ a {
   color: var(--plum);
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
 
 .hero {
   max-width: 1200px;
@@ -389,9 +374,6 @@ a {
   margin-top: 30px;
 }
 
-/* =========================================================
-   HERO PANEL
-   ========================================================= */
 
 .hero-panel {
   background: var(--surface);
@@ -438,9 +420,6 @@ a {
   color: var(--text-soft);
 }
 
-/* =========================================================
-   SECTIONS
-   ========================================================= */
 
 .section,
 .page {
@@ -459,10 +438,6 @@ a {
 
   margin: 10px 0 28px;
 }
-
-/* =========================================================
-   FEATURES
-   ========================================================= */
 
 .features {
   display: grid;
@@ -508,9 +483,6 @@ a {
   line-height: 1.65;
 }
 
-/* =========================================================
-   AUTHENTICATION
-   ========================================================= */
 
 .auth-page {
   min-height: calc(100vh - 72px);
@@ -547,9 +519,6 @@ a {
   margin-top: 25px;
 }
 
-/* =========================================================
-   FORMS
-   ========================================================= */
 
 .auth-card label,
 .detail-card label {
@@ -644,9 +613,6 @@ a {
   border-color: var(--plum);
 }
 
-/* =========================================================
-   FORGOT PASSWORD
-   ========================================================= */
 
 .forgot-link {
   text-align: right;
@@ -666,9 +632,6 @@ a {
   text-decoration: underline;
 }
 
-/* =========================================================
-   JOB FILTERS
-   ========================================================= */
 
 .filters {
   display: grid;
@@ -694,9 +657,6 @@ a {
   margin-bottom: 28px;
 }
 
-/* =========================================================
-   GENERAL JOB GRID
-   ========================================================= */
 
 .job-grid {
   display: grid;
@@ -706,9 +666,6 @@ a {
   gap: 18px;
 }
 
-/* =========================================================
-   JOB CARD
-   ========================================================= */
 
 .job-card {
   background: var(--surface);
@@ -764,10 +721,6 @@ a {
   margin: 0;
 }
 
-/* =========================================================
-   ICON BUTTON
-   ========================================================= */
-
 .icon-btn {
   width: 38px;
   height: 38px;
@@ -797,9 +750,6 @@ a {
   background: var(--amber-light);
 }
 
-/* =========================================================
-   CHIPS AND SKILLS
-   ========================================================= */
 
 .chips,
 .skills {
@@ -837,9 +787,6 @@ a {
   color: var(--plum);
 }
 
-/* =========================================================
-   MATCH SCORE
-   ========================================================= */
 
 .match {
   display: inline-block;
@@ -857,9 +804,6 @@ a {
   margin: 10px 0;
 }
 
-/* =========================================================
-   DETAIL PAGE
-   ========================================================= */
 
 .narrow {
   max-width: 850px;
@@ -897,9 +841,6 @@ a {
   margin: 26px 0;
 }
 
-/* =========================================================
-   LONG TEXT
-   ========================================================= */
 
 .long {
   line-height: 1.8;
@@ -908,10 +849,6 @@ a {
 
   white-space: pre-line;
 }
-
-/* =========================================================
-   JOB DESCRIPTION
-   ========================================================= */
 
 .job-description {
   line-height: 1.7;
@@ -1031,9 +968,6 @@ a {
   border: 1px solid var(--border);
 }
 
-/* =========================================================
-   APPLICATIONS
-   ========================================================= */
 
 .application-list {
   display: grid;
@@ -1085,9 +1019,6 @@ a {
   font-weight: 750;
 }
 
-/* =========================================================
-   TWO COLUMN LAYOUT
-   ========================================================= */
 
 .two-col {
   display: grid;
@@ -1105,9 +1036,6 @@ a {
   gap: 10px;
 }
 
-/* =========================================================
-   STATISTICS
-   ========================================================= */
 
 .stats {
   display: grid;
@@ -1148,9 +1076,6 @@ a {
   color: var(--plum);
 }
 
-/* =========================================================
-   STATUS MESSAGES
-   ========================================================= */
 
 .error {
   background: rgba(163, 59, 59, 0.1);
@@ -1190,9 +1115,6 @@ a {
   color: var(--text-soft);
 }
 
-/* =========================================================
-   UTILITY CLASSES
-   ========================================================= */
 
 .center {
   text-align: center;
@@ -1206,9 +1128,6 @@ a {
   margin-top: 35px;
 }
 
-/* =========================================================
-   AVATAR
-   ========================================================= */
 
 .avatar-row {
   display: flex;
@@ -1263,9 +1182,6 @@ a {
   color: var(--text-soft);
 }
 
-/* =========================================================
-   INITIAL LOADER
-   ========================================================= */
 
 .initial-loader {
   min-height: 60vh;
@@ -1295,10 +1211,6 @@ a {
 
   color: var(--text-soft);
 }
-
-/* =========================================================
-   JOBS PAGE
-   ========================================================= */
 
 .jobs-page {
   max-width: 1200px;
@@ -1332,9 +1244,6 @@ a {
   line-height: 1.65;
 }
 
-/* =========================================================
-   JOB SEARCH
-   ========================================================= */
 
 .job-search {
   display: flex;
@@ -1377,9 +1286,6 @@ a {
   box-shadow: 0 0 0 3px var(--plum-light);
 }
 
-/* =========================================================
-   JOB SECTIONS
-   ========================================================= */
 
 .jobs-page section {
   margin-bottom: 45px;
@@ -1411,10 +1317,6 @@ a {
   font-size: 13px;
 }
 
-/* =========================================================
-   JOBS GRID
-   ========================================================= */
-
 .jobs-grid {
   display: grid;
 
@@ -1426,9 +1328,6 @@ a {
   gap: 20px;
 }
 
-/* =========================================================
-   JOBS PAGE CARD
-   ========================================================= */
 
 .jobs-page .job-card {
   padding: 20px;
@@ -1482,9 +1381,6 @@ a {
   font-weight: 700;
 }
 
-/* =========================================================
-   MATCH SCORE
-   ========================================================= */
 
 .match-score {
   padding: 6px 10px;
@@ -1502,9 +1398,6 @@ a {
   font-weight: 700;
 }
 
-/* =========================================================
-   JOB SKILLS
-   ========================================================= */
 
 .jobs-page .skills {
   display: flex;
@@ -1530,9 +1423,6 @@ a {
   font-size: 12px;
 }
 
-/* =========================================================
-   JOB FOOTER
-   ========================================================= */
 
 .job-footer {
   display: flex;
@@ -1562,9 +1452,6 @@ a {
   text-decoration: underline;
 }
 
-/* =========================================================
-   PROFILE / EMPTY STATES
-   ========================================================= */
 
 .profile-message,
 .empty-state {
@@ -1612,9 +1499,6 @@ a {
   transform: translateY(-1px);
 }
 
-/* =========================================================
-   LOAD MORE / RETRY
-   ========================================================= */
 
 .load-more-wrap {
   display: flex;
@@ -1661,9 +1545,6 @@ a {
   cursor: default;
 }
 
-/* =========================================================
-   DARK THEME - EXTRA FIXES
-   ========================================================= */
 
 [data-theme="dark"] .job-description {
   color: var(--text-soft);
@@ -1694,9 +1575,6 @@ a {
   color: var(--text);
 }
 
-/* =========================================================
-   RESPONSIVE - TABLET
-   ========================================================= */
 
 @media (max-width: 900px) {
   .hero {
@@ -1730,9 +1608,6 @@ a {
   }
 }
 
-/* =========================================================
-   RESPONSIVE - MOBILE
-   ========================================================= */
 
 @media (max-width: 700px) {
   .job-search {
@@ -1772,9 +1647,6 @@ a {
   }
 }
 
-/* =========================================================
-   RESPONSIVE - SMALL MOBILE
-   ========================================================= */
 
 @media (max-width: 600px) {
   .hero {
@@ -1839,4 +1711,84 @@ a {
 
     gap: 14px;
   }
+ 
+.profile-header-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 24px; }
+.profile-cover { height: 110px; background: linear-gradient(120deg, var(--plum), var(--amber)); }
+.profile-header-content { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; padding: 0 28px 28px; }
+
+.profile-avatar-wrapper { position: relative; margin-top: -52px; flex: 0 0 auto; }
+.profile-avatar { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); background: var(--surface-2); display: block; }
+.profile-avatar-fallback { display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; color: var(--plum); background: var(--plum-light); }
+.profile-avatar-camera { position: absolute; right: 2px; bottom: 2px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--surface); background: var(--plum); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.profile-avatar-camera:hover { background: var(--plum-dark); }
+.profile-avatar-camera:disabled { opacity: .6; cursor: default; }
+
+.profile-main-info { flex: 1 1 240px; padding-top: 14px; }
+.profile-name { font-size: 24px; font-weight: 800; }
+.profile-location, .profile-role { color: var(--text-soft); margin-top: 4px; font-size: 14px; }
+.profile-separator { margin: 0 6px; }
+.profile-meta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; color: var(--text-soft); }
+
+.profile-header-side { flex: 1 1 220px; display: flex; flex-direction: column; gap: 14px; padding-top: 14px; }
+.profile-mini-section h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-soft); margin-bottom: 6px; }
+
+.profile-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.profile-tag { background: var(--plum-light); color: var(--plum-dark); padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 650; }
+.profile-empty { color: var(--text-soft); font-size: 13px; }
+
+.profile-header-menu { position: absolute; top: 16px; right: 16px; }
+.profile-edit-icon { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); }
+.profile-edit-icon:hover { background: var(--plum-light); color: var(--plum); }
+.profile-header-dropdown { position: absolute; right: 0; top: 44px; min-width: 170px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; z-index: 20; }
+.profile-header-dropdown button { display: block; width: 100%; text-align: left; padding: 11px 14px; background: transparent; border: none; color: var(--text); font-size: 14px; }
+.profile-header-dropdown button:hover { background: var(--surface-2); color: var(--plum); }
+
+.profile-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.profile-full-card { grid-column: 1 / -1; }
+.profile-card, .profile-edit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.profile-card-header, .profile-edit-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.profile-card-header h2, .profile-edit-card-header h2 { font-size: 16px; font-weight: 750; }
+.profile-section-edit { background: transparent; border: none; color: var(--plum); font-weight: 650; font-size: 13px; }
+.profile-section-edit:hover { text-decoration: underline; }
+.profile-about-text { color: var(--text-soft); line-height: 1.6; }
+.profile-detail-item { display: flex; flex-direction: column; gap: 4px; }
+.profile-detail-label { font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: .04em; }
+.profile-preferences-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+.profile-resume-link { color: var(--plum); font-weight: 700; }
+.profile-resume-link:hover { text-decoration: underline; }
+
+.profile-edit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.profile-photo-edit-row { display: flex; align-items: center; gap: 18px; }
+.profile-avatar-edit { width: 88px; height: 88px; }
+.profile-photo-actions { display: flex; flex-direction: column; gap: 6px; }
+.profile-upload-button { border: 1px solid var(--plum); background: transparent; color: var(--plum); padding: 9px 16px; border-radius: 9px; font-weight: 650; width: fit-content; }
+.profile-upload-button:hover { background: var(--plum-light); }
+.profile-photo-size { font-size: 12px; color: var(--text-soft); }
+
+.profile-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.profile-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 650; color: var(--text-soft); }
+.profile-field input[type="text"], .profile-field input[type="email"], .profile-field input[type="password"], .profile-field input[type="number"], .profile-field textarea, .profile-field select { border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px; background: var(--surface-2); color: var(--text); font-size: 14px; font-weight: 500; }
+.profile-field-full { grid-column: 1 / -1; }
+.profile-toggle-field { flex-direction: row; align-items: center; justify-content: space-between; }
+.profile-toggle-field input[type="checkbox"] { width: 18px; height: 18px; }
+
+.profile-form-actions { display: flex; justify-content: flex-end; gap: 12px; }
+.profile-cancel-button { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 9px; font-weight: 650; }
+.profile-cancel-button:hover { background: var(--surface-2); }
+.profile-save-button { background: var(--plum); color: #fff; border: none; padding: 10px 18px; border-radius: 9px; font-weight: 750; }
+.profile-save-button:hover { background: var(--plum-dark); }
+.profile-save-button:disabled, .profile-cancel-button:disabled { opacity: .6; cursor: default; }
+
+.tag-input { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 650; color: var(--text-soft); }
+.tag-input-box { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; background: var(--surface-2); }
+.tag-input-box input { border: none; background: transparent; flex: 1 1 120px; min-width: 120px; padding: 4px; font-size: 14px; color: var(--text); }
+.tag-input-box input:focus { outline: none; }
+.tag-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--plum-light); color: var(--plum-dark); padding: 4px 6px 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 650; }
+.tag-chip-remove { background: transparent; border: none; color: var(--plum-dark); font-size: 14px; line-height: 1; padding: 0 2px; }
+.tag-chip-remove:hover { color: var(--danger); }
+
+
+.alert { padding: 13px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; font-weight: 600; }
+.alert.success { background: rgba(57,112,78,0.12); color: var(--success); border: 1px solid rgba(57,112,78,0.3); }
+.alert.error { background: rgba(163,59,59,0.12); color: var(--danger); border: 1px solid rgba(163,59,59,0.3); }
 }

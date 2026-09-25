@@ -1,44 +1,99 @@
-import fs from "fs";
-import path from "path";
-import User from "../models/User.js";
-import { AVATAR_UPLOAD_DIR } from "../middleware/upload.js";
+import {
+  fetchProfile,
+  updateProfileFields,
+  saveAvatar,
+  changeUserPassword,
+  updatePrivacySettings,
+} from "../services/ProfileService.js";
 
 export async function getProfile(req, res) {
-  res.json(req.user);
+  try {
+    const user = await fetchProfile(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 }
 
-
 export async function updateProfile(req, res) {
-  const allowed = [
-    "name", "bio", "phone", "location", "skills", "interests",
-    "experienceYears", "education", "resumeUrl", "preferences", "avatar"
-  ];
-  const update = {};
-  for (const key of allowed) if (req.body[key] !== undefined) update[key] = req.body[key];
+  try {
+    const user = await updateProfileFields(req.user._id, req.body);
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
 
-  const user = await User.findByIdAndUpdate(req.user._id, update, { new: true, runValidators: true }).select("-password");
-  res.json(user);}
-
-
-  
-  export async function uploadProfileAvatar(req, res) {
-  if (!req.file) return res.status(400).json({ message: "No image file was uploaded" });
-
-  const previousAvatar = req.user.avatar;
-  const avatarUrl = `/uploads/avatars/${req.file.filename}`;
-
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { avatar: avatarUrl },
-    { new: true, runValidators: true }
-  ).select("-password");
-
-
-  if (previousAvatar && previousAvatar.startsWith("/uploads/avatars/")) {
-    const oldPath = path.join(AVATAR_UPLOAD_DIR, path.basename(previousAvatar));
-    fs.unlink(oldPath, () => {});
+export async function uploadProfileAvatar(req, res) {
+  if (!req.file) {
+    return res.status(400).json({
+      message: "No image file was uploaded",
+    });
   }
 
-  res.json(user);
-}  
+  try {
+    const user = await saveAvatar(
+      req.user._id,
+      req.file,
+      req.user.avatar
+    );
 
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({
+      message: err.message,
+    });
+  }
+}
+
+export async function changePassword(req, res) {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        message: "Current and new password are required",
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        message: "New password must be at least 6 characters",
+      });
+    }
+
+    await changeUserPassword(
+      req.user._id,
+      currentPassword,
+      newPassword
+    );
+
+    res.json({
+      message: "Password updated successfully",
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({
+      message: err.message,
+    });
+  }
+}
+
+export async function updatePrivacy(req, res) {
+  try {
+    const user = await updatePrivacySettings(
+      req.user._id,
+      req.body
+    );
+
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({
+      message: err.message,
+    });
+  }
+}

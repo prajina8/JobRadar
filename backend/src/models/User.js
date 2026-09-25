@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema({
   experienceYears: { type: Number, default: 0, min: 0 },
   education: { type: String, default: "" },
   resumeUrl: { type: String, default: "" },
+    privacy: {
+    profileVisibility: { type: String, enum: ["public", "private"], default: "public" },
+    showEmail: { type: Boolean, default: true },
+    showPhone: { type: Boolean, default: false }
+  },
+
   preferences: {
     locations: [{ type: String }],
     jobTypes: [{ type: String }],
