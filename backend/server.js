@@ -43,7 +43,7 @@ app.use(
     res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     next();
   },
-  express.static(path.join(__dirname, "..", "uploads"))
+  express.static(path.join(__dirname, "uploads"))
 );
 
 app.get("/api/health", (_req, res) => res.json({ ok: true, message: "SmartJob API is running" }));

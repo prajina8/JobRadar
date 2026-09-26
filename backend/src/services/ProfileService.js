@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
-import { AVATAR_UPLOAD_DIR } from "../middleware/upload.js";
+import { AVATAR_UPLOAD_DIR, RESUME_UPLOAD_DIR } from "../middleware/upload.js";
 
 const EDITABLE_PROFILE_FIELDS = [
   "name", "bio", "phone", "location", "skills", "interests",
@@ -32,6 +32,38 @@ export async function saveAvatar(userId, file, previousAvatar) {
 
   if (previousAvatar && previousAvatar.startsWith("/uploads/avatars/")) {
     const oldPath = path.join(AVATAR_UPLOAD_DIR, path.basename(previousAvatar));
+    fs.unlink(oldPath, () => {});
+  }
+
+  return user;
+}
+
+export async function saveResume(userId, file, previousResume) {
+  const resumeUrl = `/uploads/resumes/${file.filename}`;
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { resumeUrl },
+    { new: true, runValidators: true }
+  ).select("-password");
+
+  if (previousResume && previousResume.startsWith("/uploads/resumes/")) {
+    const oldPath = path.join(RESUME_UPLOAD_DIR, path.basename(previousResume));
+    fs.unlink(oldPath, () => {});
+  }
+
+  return user;
+}
+
+export async function removeResumeFile(userId, previousResume) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { resumeUrl: "" },
+    { new: true, runValidators: true }
+  ).select("-password");
+
+  if (previousResume && previousResume.startsWith("/uploads/resumes/")) {
+    const oldPath = path.join(RESUME_UPLOAD_DIR, path.basename(previousResume));
     fs.unlink(oldPath, () => {});
   }
 
